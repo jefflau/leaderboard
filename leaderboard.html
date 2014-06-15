@@ -1,0 +1,38 @@
+<head>
+<title>Leaderboard</title>
+</head>
+<body>
+	{{>filter}}
+	{{>leaderboard}}
+</body>
+
+<template name="filter">
+	<nav class="filter">
+		<ul>
+			{{#each filters}}
+			<li><a class="{{selected}}" data-id="{{id}}" href="#0">{{label}}</a></li>
+			{{/each}}
+		</ul>
+	</nav>
+</template>
+
+<template name="leaderboard">
+	<h1>Leaderboard</h1>
+	<ul>
+	{{#each items}}
+		<li class="player {{selectedClass}}">{{name}}: {{score}}</li>
+	{{/each}}
+	<li><input type="text" id="newPlayer"><input type="button" id="add" value="Add new player" /></li>
+	</ul>
+
+	{{>details}}
+</template>
+
+<template name="details">
+	<h2>Selected:</h2>
+	{{selected.name}}
+	<ul>
+		<li><input type="button" id="inc" value="Give 5 Points" /></li>
+		<li><input type="button" id="delete" value="Delete" /></li>
+	</ul>
+</template>

@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  padding: 0; }
+
+.filter {
+  background: #333;
+  color: white; }
+  .filter ul {
+    height: 50px;
+    display: flex;
+    padding: 0;
+    margin-top: 0; }
+  .filter li {
+    list-style: none;
+    padding: auto;
+    text-align: center;
+    width: 33%; }
+  .filter a {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 50px;
+    text-decoration: none;
+    width: 100%; }
+
+.selected {
+  background-color: #ccc; }
