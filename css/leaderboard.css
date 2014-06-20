@@ -1,4 +1,5 @@
 body {
+  font-family: Helvetica;
   margin: 0;
   padding: 0; }
 
@@ -25,5 +26,16 @@ body {
     text-decoration: none;
     width: 100%; }
 
-.selected {
+.active {
   background-color: #ccc; }
+
+.selected {
+  background-color: #000; }
+
+.chart rect {
+  fill: steelblue; }
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end; }

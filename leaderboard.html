@@ -3,6 +3,7 @@
 </head>
 <body>
 	{{>filter}}
+	{{>d3vis}}
 	{{>leaderboard}}
 </body>
 
@@ -20,7 +21,7 @@
 	<h1>Leaderboard</h1>
 	<ul>
 	{{#each items}}
-		<li class="player {{selectedClass}}">{{name}}: {{score}}</li>
+		<li class="player {{activeClass}}">{{name}}: {{score}}</li>
 	{{/each}}
 	<li><input type="text" id="newPlayer"><input type="button" id="add" value="Add new player" /></li>
 	</ul>
@@ -35,4 +36,8 @@
 		<li><input type="button" id="inc" value="Give 5 Points" /></li>
 		<li><input type="button" id="delete" value="Delete" /></li>
 	</ul>
+</template>
+
+<template name="d3vis">
+  <svg class="chart"></svg>
 </template>

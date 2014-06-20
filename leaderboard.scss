@@ -1,9 +1,12 @@
 body {
+	font-family: Helvetica;
 	margin: 0; padding: 0;
 }
 
+
 .filter {
 	background: #333;
+
 	color: white;
 	ul {
 		height: 50px;
@@ -29,6 +32,20 @@ body {
 	}
 }
 
+.active {
+	background-color: #ccc;
+}
+
 .selected {
-	background-color:#ccc;
+	background-color: #000;
+}
+
+.chart rect {
+  fill: steelblue;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
 }

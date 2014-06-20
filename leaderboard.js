@@ -10,7 +10,7 @@ if(Meteor.isClient) {
     } else if(filter === "winners") {
       return Players.find({score: {$gt: 99}}, {sort: {score: -1, name: 1}});
     }
-  }
+  };
 
   Template.leaderboard.events({
     'click .player' : function(){
@@ -23,9 +23,9 @@ if(Meteor.isClient) {
     }
   });
 
-  Template.leaderboard.selectedClass = function() {
+  Template.leaderboard.activeClass = function() {
     if(Session.get('selectedPlayer') === this._id) {
-      return "selected"; 
+      return "active";
     }
   };
 
@@ -44,19 +44,19 @@ if(Meteor.isClient) {
       {label: "Winners", id: "winners"}
     ];
     return filters;
-  }
+  };
 
   Template.filter.selected = function() {
     return Session.equals('filter', this.id) ? "selected" : "";
-  }
+  };
 
   Template.details.events({
     'click #delete' : function() {
       Players.remove({_id: Session.get('selectedPlayer')});
     },
     'click #inc' : function() {
-      Players.update( 
-        Session.get('selectedPlayer'), 
+      Players.update(
+        Session.get('selectedPlayer'),
         { $inc: {score: 5}}
       );
     }
@@ -65,6 +65,47 @@ if(Meteor.isClient) {
   Template.details.selected = function() {
     return Players.findOne( Session.get('selectedPlayer'));
   };
+
+  Template.d3vis.created = function () {
+    // Defer to make sure we manipulate DOM
+    _.defer(function () {
+      Deps.autorun(function () {
+
+          data = Players.find({}, {sort: {score: -1, name: 1}}).fetch();
+          scores = data.map(function(d) { return d.score});
+
+          var width = 420,
+              barHeight = 20;
+
+          var x = d3.scale.linear()
+              .domain([0, d3.max(scores)])
+              .range([0, width]);
+
+          var chart = d3.select(".chart")
+              .attr("width", width)
+              .attr("height", barHeight * scores.length);
+
+          $(".chart").empty();
+
+          var bar = chart.selectAll("g")
+              .data(scores)
+            .enter().append("g")
+              .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+          bar.append("rect")
+              .attr("width", x)
+              .attr("height", barHeight - 1);
+
+          bar.append("text")
+              .attr("x", function(d) { return x(d) - 3; })
+              .attr("y", barHeight / 2)
+              .attr("dy", ".35em")
+              .text(function(d) { return d; });
+
+          console.log('end');
+      });
+    });
+  }
 }
 
 if(Meteor.isServer) {
@@ -73,8 +114,8 @@ if(Meteor.isServer) {
       var playerNames = ["Jon", "Jeff", "Maggie", "Dianna", "Dom", "Virginia"];
 
       playerNames.map(function(name){
-        Players.insert({ 
-          name: name, 
+        Players.insert({
+          name: name,
           score: Math.floor(Random.fraction()*10)*5
         });
       });
